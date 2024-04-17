@@ -6,20 +6,24 @@ namespace SplitTheBillTest
     public class SplitTheBillTipAmountWithPatronTest
     {
         [TestMethod]
-        public void CalculateTipPerPersonBasedOnPatrons_ValidInput_CalculatesCorrectTipPerPerson()
+        public void CalculateTipPerPersonBasedOnPatrons_ValidValue_ReturnsCorrectValue()
         {
             // Arrange
-            decimal price = 100m;
-            int numberOfPatrons = 5;
-            float tipPercentage = 15f;
+            decimal price = 1000;
+            int numberOfPatrons = 10;
+            float tipPercentage = 20f;
             Bill bill = new Bill();
             // Act
             decimal tipPerPerson = bill.CalculateTipPerPersonBasedOnPatrons(price, numberOfPatrons, tipPercentage);
 
             // Assert
-            Assert.AreEqual(3m, tipPerPerson, "Incorrect tip amount per person calculated.");
+            Assert.AreEqual(20m, tipPerPerson, "Incorrect tip amount per person calculated.");
         }
 
+        /// <summary>
+        /// Tests if the method throws Argument Exception. Instead of using Assert.Throws<ArgumentException>, we can
+        /// also use the test this way
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CalculateTipPerPersonBasedOnPatrons_NegativePrice_ThrowsArgumentException()
@@ -34,7 +38,7 @@ namespace SplitTheBillTest
         }
 
         [TestMethod]
-        public void CalculateTipPerPersonBasedOnPatrons_ZeroTipPercentage_ReturnsZeroTipPerPerson()
+        public void CalculateTipPerPersonBasedOnPatrons_ZeroTip_ReturnsZeroTipPerPerson()
         {
             // Arrange
             decimal price = 80m;
@@ -47,7 +51,7 @@ namespace SplitTheBillTest
             decimal tipPerPerson = bill.CalculateTipPerPersonBasedOnPatrons(price, numberOfPatrons, tipPercentage);
 
             // Assert
-            Assert.AreEqual(0m, tipPerPerson, "Tip amount per person should be zero when tip percentage is zero.");
+            Assert.AreEqual(0m, tipPerPerson, "Tip amount per person is zero when no tip is given.");
         }
     }
 }

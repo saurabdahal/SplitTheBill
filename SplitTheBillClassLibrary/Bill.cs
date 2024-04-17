@@ -6,20 +6,28 @@ namespace SplitTheBillClassLibrary
     /// <author>Saurav Dahal</author>
     public class Bill
     {
-        public decimal SplitAmount(decimal amount, int numberOfPeople)
+        /// <summary>
+        /// This is the basic logic for splitting the bill. It does not take into consideration the price of the meal an individual ate.
+        /// </summary>
+        /// <param name="mealCost"></param>
+        /// <param name="numberOfPeople"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public decimal SplitAmount(decimal mealCost, int numberOfPeople)
         {
             if (numberOfPeople <= 0) throw new ArgumentException("number of people must be greater than zero");
-            
+            if (mealCost <= 0) throw new ArgumentException("mealCost must be greater than zero");
 
-            return amount / numberOfPeople;
+
+            return mealCost / numberOfPeople;
         }
 
         /// <summary>
-        /// Calculates the tip amount each person should pay based on their meal cost and a specified tip percentage.
+        /// Calculates the tip amount for each person based on the price of the meal they ate.
         /// </summary>
         /// <param name="totalDinner">A dictionary where keys are names and values are the cost of their meals.</param>
         /// <param name="tip">The tip percentage as a float</param>
-        /// <returns>A dictionary where keys are names and values are the tip amount each person should pay.</returns>
+        /// <returns>A dictionary of names and corresponding tip amount</returns>
         public Dictionary<string, decimal> CalculateTipPerPerson(Dictionary<string, decimal> totalDinner, float tip)
         {
             // Validate input parameters
@@ -31,12 +39,11 @@ namespace SplitTheBillClassLibrary
             decimal totalCost = totalDinner.Values.Sum();
             if (totalCost <= 0) throw new ArgumentException("at least one person has to order");
 
-            // Then we convert tipPercentage from percentage to a decimal for calculation
-            decimal tipDecimal = (decimal)tip / 100;
+            decimal convertedTip = (decimal)tip / 100;
 
             // Then we calculate total tip amount based on total meal cost and tip percentage. Here meal cost acts as the weight
             // So, higher the meal, bigger the tip
-            decimal totalTip = totalCost * tipDecimal;
+            decimal totalTip = totalCost * convertedTip;
 
             // Finally we calculate tip amount per person based on their meal cost and the total tip
             Dictionary<string, decimal> tipPerPerson = new Dictionary<string, decimal>();

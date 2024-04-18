@@ -46,7 +46,6 @@ namespace SplitTheBillTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void CalculateTipPerPerson_WithEmptyMealCosts_ThrowsArgumentOutOfRangeException()
         {
             // Arrange
